@@ -67,7 +67,7 @@ def search(term, latitude, longitude):
     
     url_params = {
         'term': term,
-        'll': latitude + ',' + longitude,
+        'll': latitude + ',' + longitude, # changing cll to ll here and ommitting city
         'limit': SEARCH_LIMIT,
         'sort': 2, # highest rated
         'radius_filter': 1600 # one mile
@@ -99,7 +99,7 @@ def yo():
     city = response_object['address']['city']
     postcode = response_object['address']['postcode']
 
-    print username + " is on " + road + ", " + neighbourhood + " in " + city + " " + postcode
+    print username + " is on " + road + ", " + neighbourhood + " in " + city + " " + postcode # making the response more precise in the command line
 
     # search for restaurants using Yelp api
     response = search('restaurants', latitude, longitude)
@@ -109,7 +109,7 @@ def yo():
 
     restaurant_url = restaurant['mobile_url']
 
-    print "Recommended restaurant is " + restaurant['name']
+    print "Recommended restaurant is " + restaurant['name'] # switching from bars to restaurants here
 
     # Yo the result back to the user
     requests.post("http://api.justyo.co/yo/", data={'api_token': YO_API_TOKEN, 'username': username, 'link': restaurant_url})
