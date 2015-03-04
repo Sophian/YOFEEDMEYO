@@ -22,13 +22,13 @@ BUSINESS_PATH = '/v2/business/'
 
 # OAuth credential placeholders that must be filled in by users.
 # Yelp Keys: http://www.yelp.com/developers/manage_api_keys
-CONSUMER_KEY = ''
-CONSUMER_SECRET = ''
-TOKEN = ''
-TOKEN_SECRET = ''
+CONSUMER_KEY = 'm_P9euu5DQXDxYzQp5_5XA'
+CONSUMER_SECRET = 'GFKQg4yA1ZlqEb47566Gu2vWbBU'
+TOKEN = 'Ex6xxvyq7gCWAXZLjNBd3zP0sFGrnq84'
+TOKEN_SECRET = '4wObvvjJWSVJQeTreKqLQmy8qg4'
 
 # Yo API Token: http://dev.justyo.co
-YO_API_TOKEN = ''
+YO_API_TOKEN = '003b4a55-9b55-4b11-9423-327f811d6c73'
 
 
 if len(CONSUMER_KEY) == 0 or \
@@ -99,15 +99,15 @@ def yo():
 
     print username + " is at " + city
 
-    # search for bars using Yelp api
-    response = search('bars', city, latitude, longitude)
+    # search for restaurants using Yelp api
+    response = search('restaurants', city, latitude, longitude)
 
     # grab the first result (we limit the results to 1 anyway in the request)
     bar = response['businesses'][0]
 
     bar_url = bar['mobile_url']
 
-    print "Recommended bar is " + bar['name']
+    print "Recommended restaurant is " + bar['name']
 
     # Yo the result back to the user
     requests.post("http://api.justyo.co/yo/", data={'api_token': YO_API_TOKEN, 'username': username, 'link': bar_url})
