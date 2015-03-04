@@ -63,12 +63,11 @@ def do_request(host, path, url_params=None):
     response_object = response.json()
     return response_object
 
-def search(term, city, latitude, longitude):
+def search(term, latitude, longitude):
     
     url_params = {
         'term': term,
-        'location': city,
-        'cll': latitude + ',' + longitude,
+        'll': latitude + ',' + longitude,
         'limit': SEARCH_LIMIT,
         'sort': 2, # highest rated
         'radius_filter': 1600 # one mile
@@ -93,24 +92,27 @@ def yo():
     print "We got a Yo from " + username
 
     # get the city name since Yelp api must be provided with at least a city even though we give it accurate coordinates
-    response = requests.get('http://nominatim.openstreetmap.org/reverse?format=json&lat=' + latitude + '&lon=' +longitude + '&zoom=18&addressdetails=1')
+    response = requests.get('http://nominatim.openstreetmap.org/reverse?format=json&lat=' + latitude + '&lon=' + longitude + '&zoom=18&addressdetails=1')
     response_object = response.json()
+    road = response_object['address']['road']
+    neighbourhood = response_object['address']['neighbourhood']
     city = response_object['address']['city']
+    postcode = response_object['address']['postcode']
 
-    print username + " is at " + city
+    print username + " is on " + road + ", " + neighbourhood + " in " + city + " " + postcode
 
     # search for restaurants using Yelp api
-    response = search('restaurants', city, latitude, longitude)
+    response = search('restaurants', latitude, longitude)
 
     # grab the first result (we limit the results to 1 anyway in the request)
-    bar = response['businesses'][0]
+    restaurant = response['businesses'][0]
 
-    bar_url = bar['mobile_url']
+    restaurant_url = restaurant['mobile_url']
 
-    print "Recommended restaurant is " + bar['name']
+    print "Recommended restaurant is " + restaurant['name']
 
     # Yo the result back to the user
-    requests.post("http://api.justyo.co/yo/", data={'api_token': YO_API_TOKEN, 'username': username, 'link': bar_url})
+    requests.post("http://api.justyo.co/yo/", data={'api_token': YO_API_TOKEN, 'username': username, 'link': restaurant_url})
 
     # OK!
     return 'OK'

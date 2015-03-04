@@ -39,7 +39,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/sbensaou/git/BarRecommendor/env"
+VIRTUAL_ENV="/Users/sbensaou/git/YOFEEDMEYO/env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
